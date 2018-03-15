@@ -99,6 +99,16 @@ namespace Microwave.Test.Intergration
             _userInterface.Received().CookingIsDone();
         }
 
+        [Test]
+
+        public void Stop_MicrowaveIsRunning_DisplayIsCleared()
+        {
+            _uut.StartCooking(50,3000);
+            Thread.Sleep(1003);
+            _uut.Stop();
+            _output.Received().OutputLine("PowerTube turned off");
+        }
+
 
 
     }
