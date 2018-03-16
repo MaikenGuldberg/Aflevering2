@@ -11,6 +11,8 @@ namespace MicrowaveOvenClasses.Boundary
             myOutput = output;
         }
 
+      
+
         public void ShowTime(int min, int sec)
         {
             myOutput.OutputLine($"Display shows: {min:D2}:{sec:D2}");
@@ -18,7 +20,9 @@ namespace MicrowaveOvenClasses.Boundary
 
         public void ShowPower(int power)
         {
+
             myOutput.OutputLine($"Display shows: {power} W");
+
         }
 
         public void Clear()
