@@ -32,24 +32,28 @@ namespace Microwave.Test.Intergration
         [SetUp]
         public void SetUp()
         {
-            _userInterface = new UserInterface(_powerButton, _timeButton, _startCancelButton, _uut, _display, _light,
-                _cookController);
-            _light = new Light(_output);
-            _cookController = new CookController(_timer, _display, _powerTube);
-            _display = new Display(_output);
+            _uut = new Door();
             _timer = new Timer();
-            _powerTube = new PowerTube(_output);
             _output = Substitute.For<IOutput>();
             _powerButton = new Button();
             _timeButton = new Button();
             _startCancelButton = new Button();
+            _light = new Light(_output);
+            _cookController = new CookController(_timer, _display, _powerTube);
+            _display = new Display(_output);
+            _powerTube = new PowerTube(_output);
+            _userInterface = new UserInterface(_powerButton, _timeButton, _startCancelButton, _uut, _display, _light,
+                _cookController);
+
+
+
         }
 
         [Test]
         public void OpenDoor()
         {
             _uut.Open();
-            Assert.That(_output);
+            _output.Received().OutputLine("Light is turned on");
         }
     }
 }
