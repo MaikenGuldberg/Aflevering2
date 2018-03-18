@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IT1.cs" />
+    <Compile Include="IT2.cs" />
     <Compile Include="IT3.cs" />
     <Compile Include="IT3_Extensions.cs" />
     <Compile Include="IT4.cs" />
