@@ -46,9 +46,9 @@ namespace Microwave.Test.Intergration
 
         [Test]
 
-        public void OnDoorOpened_OpdenDoor_LightComesOn()
+        public void OnDoorOpened_OpdenDoor_LightTurnsOn()
         {
-            _door.Open();
+            _uut.OnDoorOpened(this,EventArgs.Empty);
             _outputFake.Received().OutputLine("Light is turned on");
         }
 
@@ -56,93 +56,92 @@ namespace Microwave.Test.Intergration
 
         public void OnDoorClosed_LightTurnsOff()
         {
-            _door.Open();
-            _door.Close();
+            _uut.OnDoorOpened(this,EventArgs.Empty);
+            _uut.OnDoorClosed(this,EventArgs.Empty);
             _outputFake.Received().OutputLine("Light is turned off");
         }
 
         [Test]
         public void OnPowerPressed_ShowPowerLevel50()
         {
-            _powerButton.Press();
+            _uut.OnPowerPressed(this, EventArgs.Empty);
             _outputFake.Received().OutputLine("Display shows: 50 W");
         }
 
         [Test]
         public void OnPowerPressed_PowerButtonPressedTwoTimes_ShowPowerLevel100()
         {
-            _powerButton.Press();
-            _powerButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnPowerPressed(this,EventArgs.Empty);
             _outputFake.Received().OutputLine("Display shows: 100 W");
         }
 
         [Test]
         public void OnPowerPressed_PowerButtonPressedThreeTimes_ShowPowerLevel150()
         {
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
             _outputFake.Received().OutputLine("Display shows: 150 W");
         }
         //Tjekker at den højeste værdi man kan sætte power til er 700 W. Hvis man kommer over denne bliver den sat til default 50 W igen.
         [Test]
         public void OnPowerPressed_PowerButtonPressedFifteenTimes_ShowPowerLevel50()
         {
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
             _outputFake.Received(2).OutputLine("Display shows: 50 W");
         }
 
         [Test]
         public void OnTimePressed_TimeButtonPressedOneTime_ShowOneMinutAndZeroSekunds()
         {
-            _powerButton.Press();
-            _timeButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
             _outputFake.Received().OutputLine("Display shows: 01:00");
         }
 
         [Test]
         public void OnTimerPressed_TimerButtonPressedTwoTimes_ShowTwoMinutsAndZeroSekunds()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _timeButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
             _outputFake.Received().OutputLine("Display shows: 02:00");
         }
 
         //Note man har ikke lavet noget der handler hvis man indstiller uret til over en time. (sker måske ikke i virkeligheden)
 
         [Test]
-
         public void OnStartCancelPressed_LightTurnsOn()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
             _outputFake.Received().OutputLine("Light is turned on");
         }
 
         [Test]
         public void OnStartCancelPressed_PowerIsOn()
         {
-            _powerButton.Press();
-            _powerButton.Press();
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(100);
             _outputFake.Received().OutputLine("PowerTube works with 21 %");
         } // Der er en fejl her idet man i metoden turn on i powerTube klassen ikke omregner de indstillede watt til procent af samlede antal watt den kan indstilles på.
@@ -150,9 +149,9 @@ namespace Microwave.Test.Intergration
         [Test]
         public void OnStartCancelPressed_TimeTickIsShown()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(1001);
             _outputFake.Received().OutputLine("Display shows: 00:59");
             Thread.Sleep(1001);
@@ -163,9 +162,9 @@ namespace Microwave.Test.Intergration
         [Test]
         public void OnStartCancelPressed_PowerTubeTurnsOffWhenCookingIsDone()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(60100);
             _outputFake.Received().OutputLine("PowerTube turned off");
         }
@@ -173,9 +172,9 @@ namespace Microwave.Test.Intergration
         [Test]
         public void CookingIsDone_DisplayIsCleared()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(60300);
             _outputFake.Received().OutputLine("Display cleared");
         }
@@ -183,13 +182,23 @@ namespace Microwave.Test.Intergration
         [Test]
         public void CookingIsDone_LightTurnsOff()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(62000);
+            _uut.CookingIsDone();
             _outputFake.Received().OutputLine("Light is turned off");
         } //Der er en eller anden fejl her..
 
+        [Test]
+        public void CookingIsDone_PowertubeOff() //Kan den her ikke også være der?
+        {
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            _uut.OnTimePressed(this,EventArgs.Empty);
+            _uut.OnStartCancelPressed(this,EventArgs.Empty);
+            Thread.Sleep(62000);
+            _outputFake.Received().OutputLine($"PowerTube turned off");
+        }
 
         //Tjek med mere end default
     }

@@ -48,9 +48,6 @@ namespace Microwave.Test.Intergration
             _userInterface = new UserInterface(_powerButton, _timeButton, _startCancelButton, _uut, _display, _light,
                 _cookController);
 
-
-
-
         }
 
         [Test]
