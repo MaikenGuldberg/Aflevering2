@@ -49,11 +49,11 @@ namespace Microwave.Test.Intergration
         [Test]
         public void OpenDoorWhileCooking_PowerTubeTurnsOff()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnTimePressed(this, EventArgs.Empty);
+            _uut.OnStartCancelPressed(this, EventArgs.Empty);
             Thread.Sleep(500);
-            _door.Open();
+            _uut.OnDoorOpened(this,EventArgs.Empty);
             Thread.Sleep(1000);
             _output.Received().OutputLine("PowerTube turned off");
         }
@@ -61,27 +61,41 @@ namespace Microwave.Test.Intergration
         [Test]
         public void PressCancelWhileTheMachineIsRunning_PowerTubeTurnsOff()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnTimePressed(this, EventArgs.Empty);
+            _uut.OnStartCancelPressed(this, EventArgs.Empty);
             Thread.Sleep(1000);
-            _startCancelButton.Press();
+            _uut.OnStartCancelPressed(this, EventArgs.Empty);
             _output.Received().OutputLine("PowerTube turned off");
         }
 
         [Test]
         public void PressCancelWhileTheMachineIsRunning_LightsTurnsOff()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _uut.OnPowerPressed(this, EventArgs.Empty);
+            _uut.OnTimePressed(this, EventArgs.Empty);
+            _uut.OnStartCancelPressed(this, EventArgs.Empty);
             Thread.Sleep(1000);
-            _startCancelButton.Press();
-            Thread.Sleep(500);
+            _uut.OnStartCancelPressed(this, EventArgs.Empty);
             _output.Received().OutputLine("Light is turned off");
         }
 
+        [TestCase(1,"01:00")]
+        [TestCase(2, "02:00")]
+        [TestCase(3, "03:00")]
+        public void test(int timesPressed, string expectedOutput)
+        {
+            _uut.OnPowerPressed(this,EventArgs.Empty);
+            for (int i = 0; i < timesPressed; i++)
+            {
+                _uut.OnTimePressed(this, EventArgs.Empty);
+            }
+            Thread.Sleep(500);
+            //_output.Received().OutputLine("PowerTube turned off");
+            _output.Received().OutputLine(Arg.Is<string>(str => str.Contains(expectedOutput)));
 
-        
+        }
+
+
     }
 }
