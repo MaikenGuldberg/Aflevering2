@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MicrowaveOvenClasses.Boundary;
 using MicrowaveOvenClasses.Controllers;
 using MicrowaveOvenClasses.Interfaces;
 using NUnit.Framework;
 using NSubstitute;
+using Timer = MicrowaveOvenClasses.Boundary.Timer;
 
 namespace Microwave.Test.Intergration
 {
@@ -39,21 +41,43 @@ namespace Microwave.Test.Intergration
             _timeButton = new Button();
             _startCancelButton = new Button();
             _light = new Light(_output);
-            _cookController = new CookController(_timer, _display, _powerTube);
             _display = new Display(_output);
             _powerTube = new PowerTube(_output);
+
+            _cookController = new CookController(_timer, _display, _powerTube);
             _userInterface = new UserInterface(_powerButton, _timeButton, _startCancelButton, _uut, _display, _light,
                 _cookController);
+
 
 
 
         }
 
         [Test]
-        public void OpenDoor()
+        public void OpenDoor_LightIsTurned()
         {
             _uut.Open();
             _output.Received().OutputLine("Light is turned on");
+        }
+
+        [Test]
+        public void OPenDoorWhileCooking_PowerTubeIsTurnedOff()
+        {
+            _powerButton.Press();
+            _timeButton.Press();
+            _startCancelButton.Press();
+            Thread.Sleep(500);
+            _uut.Open();
+            Thread.Sleep(1000);
+            _output.Received().OutputLine("PowerTube turned off");
+        }
+
+        [Test]
+        public void CloseDoor_LightIsTurnedOff()
+        {
+            _uut.Close();
+            _output.Received().OutputLine("Light is turned off");
+
         }
     }
 }
