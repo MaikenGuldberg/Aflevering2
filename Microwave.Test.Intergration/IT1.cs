@@ -86,8 +86,8 @@ namespace Microwave.Test.Intergration
         [Test]
         public void OnTimerExpired_Check_PowerTubeIsOff()
         {
-           _uut.StartCooking(50,10000);
-            Thread.Sleep(10001);
+           _uut.StartCooking(50,1000);
+            Thread.Sleep(1001);
             _output.Received().OutputLine("PowerTube turned off");
         }
 
