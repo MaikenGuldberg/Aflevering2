@@ -144,7 +144,7 @@ namespace Microwave.Test.Intergration
             _timeButton.Press();
             _startCancelButton.Press();
             Thread.Sleep(100);
-            _outputFake.Received().OutputLine("PowerTube works with  %");
+            _outputFake.Received().OutputLine("PowerTube works with 21 %");
         } // Der er en fejl her idet man i metoden turn on i powerTube klassen ikke omregner de indstillede watt til procent af samlede antal watt den kan indstilles på.
 
         [Test]
