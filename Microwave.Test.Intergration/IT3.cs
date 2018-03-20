@@ -63,11 +63,11 @@ namespace Microwave.Test.Intergration
         [Test]
         public void CloseDoor_LightIsTurnedOff()
         {
-            _powerButton.Press();
-            _timeButton.Press();
-            _startCancelButton.Press();
+            _userInterface.OnPowerPressed(this,EventArgs.Empty);
+            _userInterface.OnTimePressed(this,EventArgs.Empty);
+            _userInterface.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(1000);
-            _startCancelButton.Press();
+            _userInterface.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(500);
             _uut.Close();
             _output.Received().OutputLine("Light is turned off");
