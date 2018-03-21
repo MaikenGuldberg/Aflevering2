@@ -95,7 +95,7 @@ namespace Microwave.Test.Intergration
         public void OnTimerTick_PrintTimeToUI()
         {
             _uut.StartCooking(50,5000);
-            Thread.Sleep(5005);
+            Thread.Sleep(5500);
             _userInterface.Received().CookingIsDone();
         }
 

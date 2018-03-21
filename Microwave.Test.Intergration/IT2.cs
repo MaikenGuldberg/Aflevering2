@@ -166,7 +166,7 @@ namespace Microwave.Test.Intergration
             _uut.OnPowerPressed(this,EventArgs.Empty);
             _uut.OnTimePressed(this,EventArgs.Empty);
             _uut.OnStartCancelPressed(this,EventArgs.Empty);
-            Thread.Sleep(60100);
+            Thread.Sleep(61000);
             _outputFake.Received().OutputLine("PowerTube turned off");
         }
 
