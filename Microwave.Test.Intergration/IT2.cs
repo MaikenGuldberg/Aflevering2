@@ -17,7 +17,7 @@ namespace Microwave.Test.Intergration
     {
         private UserInterface _uut;
         private ILight _light;
-        private ICookController _cookController;
+        private CookController _cookController;
         private IDisplay _display;
         private ITimer _timer;
         private IPowerTube _powerTube;
@@ -42,7 +42,7 @@ namespace Microwave.Test.Intergration
             _door = new Door();
             _cookController = new CookController(_timer, _display, _powerTube); 
             _uut = new UserInterface(_powerButton, _timeButton, _startCancelButton, _door, _display, _light, _cookController);
-
+            _cookController.UI = _uut;
         }
 
         [Test]
@@ -166,7 +166,7 @@ namespace Microwave.Test.Intergration
             _uut.OnPowerPressed(this,EventArgs.Empty);
             _uut.OnTimePressed(this,EventArgs.Empty);
             _uut.OnStartCancelPressed(this,EventArgs.Empty);
-            Thread.Sleep(60250); //60100
+            Thread.Sleep(65000); //60100
             _outputFake.Received().OutputLine("PowerTube turned off");
         }
 
@@ -180,7 +180,7 @@ namespace Microwave.Test.Intergration
             _outputFake.Received().OutputLine("Display cleared");
         }
 
-        /**
+        
         [Test]
         public void CookingIsDone_LightTurnsOff()
         {
@@ -189,9 +189,9 @@ namespace Microwave.Test.Intergration
             _uut.OnStartCancelPressed(this,EventArgs.Empty);
             Thread.Sleep(62000);
             _outputFake.Received().OutputLine("Light is turned off");
-        } //Der er en eller anden fejl her..
+        } 
 
-        **/
+        
 
         [Test]
         public void CookingIsDone_PowertubeOff() 
