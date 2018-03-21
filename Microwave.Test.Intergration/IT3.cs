@@ -71,7 +71,7 @@ namespace Microwave.Test.Intergration
         }
 
         [Test]
-        public void OpenDoorWhileCooking_PowerTubeIsTurnedOff()
+        public void OpenDoorWhileCooking_PowerTubeIsTurnedOff() 
         {
             _userInterface.OnPowerPressed(this,EventArgs.Empty);
             _userInterface.OnTimePressed(this,EventArgs.Empty);
